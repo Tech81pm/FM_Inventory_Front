@@ -4,25 +4,21 @@
             <a class="navbar-brand">ONE STYLE INC.</a>
             <ul class="nav justify-content-end">
             <li class="nav-item">
-                <router-link class="btn btn-primary"
-                to="/login"
-                 type="button"
-                 data-bs-toggle="offcanvas"
-                 data-bs-target="#loginModal"
-                 aria-controls="offcanvasRight"
-                 >
-                Login
-                </router-link>
-
+                <router-link class="nav-link" to="/" aria-current="page">Home</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/login" aria-current="page">Login</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/register" aria-current="page">Register</router-link>
             </li>
             </ul>
         </div>
-        <LoginPage />
     </nav>
 </template>
 
 <script setup>
-import LoginPage from "@/views/LoginPage.vue";
+
 </script>
 
 <style scoped>

@@ -1,15 +1,16 @@
 <template>
   <div class="app">
-    <MyHeader/>
-    <LoginPage/>
-    <MyHome/>
+    <div class="content">
+      <MyHeader/>
+      <main>
+        <router-view/>
+      </main>
+    </div>
   </div>
 </template>
 
 <script setup>
-import MyHome from "./views/MyHome.vue";
 import MyHeader from "./components/base/MyHeader.vue";
-import LoginPage from "./views/LoginPage.vue";
 </script>
 
 
@@ -34,4 +35,21 @@ body {
   background: var(--light);
 }
 
+.app {
+  display: flex;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+
+    Appbar {
+      flex-shrink: 0; 
+    }
+
+  }
+  .laman{
+    padding: 2rem;
+  }
+}
 </style>

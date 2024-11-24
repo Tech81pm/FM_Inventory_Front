@@ -14,23 +14,6 @@
 
           <span class="text">Assets</span>
         </router-link>
-        <router-link class="button" to="/sets">
-
-          <span class="text">Sets</span>
-        </router-link>
-        <router-link class="button" to="/components">
-
-          <span class="text">Components</span>
-        </router-link>
-        <router-link class="button" to="/peripherals">
-
-          <span class="text">Peripherals</span>
-        </router-link>
-        <router-link class="button" to="/consumables">
-
-          <span class="text">Consumables</span>
-        </router-link>
-    
       </div>
     </aside>
   </template>
