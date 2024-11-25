@@ -1,8 +1,8 @@
 <template>
   <div class="app">
     <MySidebar />
-    <div class="content">
-      <h1>HOME</h1>
+    <div class="content" style="padding: 3rem;">
+      <h1>Dashboard</h1>
     </div>
   </div>
 </template>

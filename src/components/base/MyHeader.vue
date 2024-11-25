@@ -23,6 +23,14 @@
 
 <style scoped>
 .navbar {
-    background: var(--primary);
+    background: var(--dark-alt);
 }
+
+.navbar-brand {
+    color: var(--light);
+}
+.nav-link {
+    color: var(--light);
+}
+
 </style>

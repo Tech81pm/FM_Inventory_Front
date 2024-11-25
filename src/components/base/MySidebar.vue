@@ -1,18 +1,29 @@
 <template>
     <aside :class="{ 'is-expanded': is_expanded }">
       <div class="menu-toggle-wrap">
-        <button class="menu-toggle" @click="ToggleMenu">
+        <button class="menu-toggle" @click="ToggleMenu" style="background-color: var(--dark); border: none;">
+          <span class="material-icons">
+          menu
+          </span>
         </button>
       </div>
   
       <div class="menu">
         <router-link class="button" to="/">
-
+          <span class="material-icons">dashboard</span>
           <span class="text">Dashboard</span>
         </router-link>
         <router-link class="button" to="/assets">
-
+          <span class="material-icons">dashboard</span>
           <span class="text">Assets</span>
+        </router-link>
+        <router-link class="button" to="/purchase">
+          <span class="material-icons">dashboard</span>
+          <span class="text">Purchase</span>
+        </router-link>
+        <router-link class="button" to="/reports">
+          <span class="material-icons">dashboard</span>
+          <span class="text">Reports</span>
         </router-link>
       </div>
     </aside>
@@ -52,20 +63,19 @@
   
         .material-icons {
           font-size: 2rem;
-          color: var(--dark-alt);
+          color: var(--light);
           transition: 0.2s ease-out;
         }
   
         &:hover {
           .material-icons {
-            color: var(--dark);
+            color: var(--primary);
             transform: translateX(0.2rem);
           }
         }
       }
     }
   
-    h5,
     .button .text {
       opacity: 0;
       transition: 0.3s ease-out;
@@ -83,7 +93,7 @@
   
         .material-icons {
           font-size: 2rem;
-
+          color: var(--light);
           transition: 0.2s ease-out;
         }
   
@@ -96,13 +106,16 @@
         &.router-link-exact-active {
           background-color: var(--dark-alt);
   
+          .material-icons,
+          .text {
+            color: var(--primary);
+          }
         }
   
         &.router-link-exact-active {
           border-right: 5px solid var(--primary);
         }
       }
-  
     }
   
     &.is-expanded {
@@ -117,12 +130,15 @@
         }
       }
   
-      h5,
       .button .text {
-        opacity: 1;
+        opacity: 10;
       }
   
-
+      .button {
+        .material-icons {
+          margin-right: 1rem;
+        }
+      }
     }
   
     @media (max-width: 768px) {
@@ -132,4 +148,3 @@
     }
   }
   </style>
-  

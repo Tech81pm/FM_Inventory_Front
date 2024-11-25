@@ -16,8 +16,7 @@ import MyHeader from "./components/base/MyHeader.vue";
 
 <style lang="scss">
 :root {
-  --primary: #9504b2;
-  --primary-alt: #3e17a5;
+  --primary: #1A1A1D;
   --dark: #837d87;
   --dark-alt: #645e69;
   --light: #e9e6f3;
