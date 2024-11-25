@@ -1,7 +1,7 @@
 <template>
     <div class="app">
       <MySidebar />
-      <div class="content" style="padding: 3rem;">
+      <div class="content" style="padding: 2rem;">
         <div class="d-flex justify-content-between mb-3">
           <!-- Search Input and Button -->
           <div class="input-group w-50">
