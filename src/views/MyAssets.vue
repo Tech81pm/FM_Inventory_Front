@@ -14,7 +14,7 @@
             <button class="btn btn-primary" >Search</button>
           </div>
           <!-- Add Data Button -->
-          <button class="btn btn-success" >Add Data</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add asset</button>
         </div>
   
         <!-- Add Data Form Modal -->
@@ -70,20 +70,234 @@
         <!--END-->
       </div>
     </div>
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addModalLabel">Add Asset</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form @submit.prevent="addAsset">
+        <div class="modal-body">
+          <!-- Form Fields using Grid Layout -->
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label for="assetName" class="form-label">Asset Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="assetName"
+                v-model="newAssets.asset_name"
+                placeholder="Enter asset name"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="category" class="form-label">Category</label>
+              <input
+                type="text"
+                class="form-control"
+                id="category"
+                v-model="newAssets.category"
+                placeholder="Enter category"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="brand" class="form-label">Brand</label>
+              <input
+                type="text"
+                class="form-control"
+                id="brand"
+                v-model="newAssets.brand"
+                placeholder="Enter brand"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="specs" class="form-label">Specifications</label>
+              <input
+                type="text"
+                class="form-control"
+                id="specs"
+                v-model="newAssets.specs"
+                placeholder="Enter specifications"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input
+                type="text"
+                class="form-control"
+                id="location"
+                v-model="newAssets.location"
+                placeholder="Enter location"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="company" class="form-label">Company</label>
+              <input
+                type="text"
+                class="form-control"
+                id="company"
+                v-model="newAssets.company"
+                placeholder="Enter company"
+                required
+              />
+            </div>
+            <div class="col-md-2 mb-3">
+              <label for="purchaseDate" class="form-label">Purchase Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="purchaseDate"
+                v-model="newAssets.purchase_date"
+                required
+              />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="supplier" class="form-label">Supplier</label>
+              <input
+                type="text"
+                class="form-control"
+                id="supplier"
+                v-model="newAssets.supplier"
+                placeholder="Enter supplier name"
+                required
+              />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input
+                type="number"
+                class="form-control"
+                id="price"
+                v-model="newAssets.price"
+                placeholder="Enter price"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="status" class="form-label">Status</label>
+              <select
+                class="form-select"
+                id="status"
+                v-model="newAssets.status"
+                required
+              >
+                <option value="In stock">In stock</option>
+                <option value="Out of stock">Out of stock</option>
+              </select>
+            </div>
+            <div class="col-md-1 mb-3">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                id="quantity"
+                v-model="newAssets.quantity"
+                placeholder="Enter quantity"
+                min="1"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
   </template>
   
   <script setup>
   import MySidebar from "../components/base/MySidebar.vue";
   </script>
 <script>
+import { toast } from 'vue3-toastify';
 export default {
   data(){
     return{
+      showModal: false,
       base_url:'http://192.168.100.216:3003',
       assets:[],
+      newAssets:{
+        asset_name:'',
+        category:'',
+        brand:'',
+        specs:'',
+        quantity:1,
+        location:'',
+        company:'',
+        purchase_date:'',
+        supplier:'',
+        price:0,
+        status:'In stock'
+      },
     };
   },
 methods: {
+  clear(){
+    this.newAssets ={
+      asset_name:'',
+        category:'',
+        brand:'',
+        specs:'',
+        quantity:1,
+        location:'',
+        company:'',
+        purchase_date:'',
+        supplier:'',
+        price:0,
+        status:'In stock'
+    }
+  },
+  async addAsset(){
+    try{
+      const response = await toast.promise(
+        fetch(`${this.base_url}/assets/add`,{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.newAssets),
+          credentials:'include'
+        }),
+        {
+          pending: 'Adding asset/s...',
+          error: 'Login failed',
+        }
+      );
+      if(!response.ok){
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to add asset');
+      }
+      await response.json();
+      toast.success('Asset added succesfully',{
+        autoClose:2000
+      });
+      this.fetchAssets()
+      this.clear()
+    }catch(error){
+      console.error('Error adding asset')
+      toast.error('Error adding asset' + error.message,{
+        autoClose:2000
+      });
+    }
+  },
   async fetchAssets(){
       fetch(`${this.base_url}/assets/`,{
         method: 'GET',
