@@ -211,7 +211,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary" :disabled="isSubmitting">Save changes</button>
         </div>
       </form>
     </div>
@@ -230,7 +230,7 @@ import { toast } from 'vue3-toastify';
 export default {
   data(){
     return{
-      showModal: false,
+      isSubmitting: false,
       base_url:process.env.VUE_APP_BASE_URL,
       assets:[],
       newAssets:{
@@ -295,8 +295,13 @@ methods: {
       toast.error('Error adding asset' + error.message,{
         autoClose:2000
       });
+    }finally{
+      setTimeout(() => {
+        toast.clearAll();
+      }, 5000);
     }
-  },
+  }
+  ,
   async fetchAssets(){
       fetch(`${this.base_url}/assets/`,{
         method: 'GET',

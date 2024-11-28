@@ -20,7 +20,28 @@ export default{
                 status:'In stock'
             }
         }
-    }
+    },
+    methods: {
+        async editAsset(id){
+            try{
+                const response = await toast.promise(
+                    fetch(`${this.base_url}/assets/edit/:${id}`,{
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.newAssets),
+
+                    })
+                )
+            }catch(error){
+                
+            }
+        },
+        async fetchAssetbyID(id){
+
+        }
+    },  
 }
 </script>
 
