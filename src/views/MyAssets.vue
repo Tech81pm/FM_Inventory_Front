@@ -82,7 +82,6 @@
       </div>
       <form @submit.prevent="addAsset">
         <div class="modal-body">
-          <!-- Form Fields using Grid Layout -->
           <div class="row">
             <div class="col-md-4 mb-3">
               <label for="assetName" class="form-label">Asset Name</label>
@@ -232,7 +231,7 @@ export default {
   data(){
     return{
       showModal: false,
-      base_url:'http://192.168.100.216:3003',
+      base_url:process.env.VUE_APP_BASE_URL,
       assets:[],
       newAssets:{
         asset_name:'',
@@ -244,7 +243,7 @@ export default {
         company:'',
         purchase_date:'',
         supplier:'',
-        price:0,
+        price: '',
         status:'In stock'
       },
     };

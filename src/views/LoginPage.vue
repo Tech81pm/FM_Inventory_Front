@@ -25,7 +25,7 @@ import { toast } from 'vue3-toastify';
 export default {
   data() {
     return {
-      base_url: 'http://192.168.100.216:3003',
+      base_url: process.env.VUE_APP_BASE_URL,
       log: {
         username: '',
         password: ''
