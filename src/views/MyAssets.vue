@@ -56,7 +56,10 @@
               <td>{{asset.price}}</td>
               <td>{{asset.status}}</td>
               <td>
-                <button class="btn btn-primary btn-sm">Edit</button>
+                <button class="btn btn-primary btn-sm" @click="selectedAssetID = asset.id"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                >Edit</button>
                 <button class="btn btn-danger btn-sm">Delete</button>
               </td>
             </tr>
@@ -69,11 +72,15 @@
         </div>
         <!--END-->
       </div>
+      <editModal
+      :assetId="selectedAssetID"
+      @close="fetchAssets()"
+      />
     </div>
     
 
     <!-- Modal -->
-    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -82,7 +89,6 @@
       </div>
       <form @submit.prevent="addAsset">
         <div class="modal-body">
-          <!-- Form Fields using Grid Layout -->
           <div class="row">
             <div class="col-md-4 mb-3">
               <label for="assetName" class="form-label">Asset Name</label>
@@ -225,14 +231,16 @@
   
   <script setup>
   import MySidebar from "../components/base/MySidebar.vue";
+  import editModal from "./assetsModals/editModal.vue";
   </script>
 <script>
 import { toast } from 'vue3-toastify';
 export default {
+  components:{editModal},
   data(){
     return{
-      showModal: false,
-      base_url:'http://192.168.100.216:3003',
+      selectedAssetID: null,
+      base_url:process.env.VUE_APP_BASE_URL,
       assets:[],
       newAssets:{
         asset_name:'',
@@ -244,7 +252,7 @@ export default {
         company:'',
         purchase_date:'',
         supplier:'',
-        price:0,
+        price: '',
         status:'In stock'
       },
     };
@@ -296,8 +304,13 @@ methods: {
       toast.error('Error adding asset' + error.message,{
         autoClose:2000
       });
+    }finally{
+      setTimeout(() => {
+        toast.clearAll();
+      }, 5000);
     }
-  },
+  }
+  ,
   async fetchAssets(){
       fetch(`${this.base_url}/assets/`,{
         method: 'GET',

@@ -25,7 +25,7 @@ import { toast } from 'vue3-toastify';
 export default {
   data() {
     return {
-      base_url: 'http://192.168.100.216:3003',
+      base_url: process.env.VUE_APP_BASE_URL,
       log: {
         username: '',
         password: ''
@@ -41,7 +41,7 @@ export default {
     );
 
     const response = await toast.promise(
-      Promise.race([  // Race the fetch against the timeout
+      Promise.race([  
         fetch(`${this.base_url}/users/login`, {
           method: 'POST',
           headers: {
@@ -50,7 +50,7 @@ export default {
           body: JSON.stringify(this.log),
           credentials: 'include'
         }),
-        timeout  // Timeout promise
+        timeout
       ]),
       {
         pending: 'Logging in...',
@@ -75,6 +75,10 @@ export default {
     toast.error('Login failed: ' + error.message, {
       autoClose: 2000
     });
+  }finally{
+    setTimeout(() => {
+      toast.clearAll();
+    }, 5000);
   }
 }
 
