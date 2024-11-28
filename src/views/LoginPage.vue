@@ -78,7 +78,7 @@ export default {
   }finally{
     setTimeout(() => {
       toast.clearAll();
-    }, 3000);
+    }, 5000);
   }
 }
 

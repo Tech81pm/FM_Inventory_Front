@@ -56,7 +56,10 @@
               <td>{{asset.price}}</td>
               <td>{{asset.status}}</td>
               <td>
-                <button class="btn btn-primary btn-sm">Edit</button>
+                <button class="btn btn-primary btn-sm" @click="selectedAssetID = asset.id"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                >Edit</button>
                 <button class="btn btn-danger btn-sm">Delete</button>
               </td>
             </tr>
@@ -69,11 +72,15 @@
         </div>
         <!--END-->
       </div>
+      <editModal
+      :assetId="selectedAssetID"
+      @close="fetchAssets()"
+      />
     </div>
     
 
     <!-- Modal -->
-    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -211,7 +218,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" :disabled="isSubmitting">Save changes</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
       </form>
     </div>
@@ -224,13 +231,15 @@
   
   <script setup>
   import MySidebar from "../components/base/MySidebar.vue";
+  import editModal from "./assetsModals/editModal.vue";
   </script>
 <script>
 import { toast } from 'vue3-toastify';
 export default {
+  components:{editModal},
   data(){
     return{
-      isSubmitting: false,
+      selectedAssetID: null,
       base_url:process.env.VUE_APP_BASE_URL,
       assets:[],
       newAssets:{
