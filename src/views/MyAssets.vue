@@ -1,20 +1,21 @@
 <template>
     <div class="app">
       <MySidebar />
-      <div class="content" style="padding: 2rem;">
+      <div class="content" style="padding: 1rem;">
         <div class="d-flex justify-content-between mb-3">
           <!-- Search Input and Button -->
-          <div class="input-group w-50">
-            <input 
-              type="text" 
-              class="form-control" 
-              placeholder="Search..." 
-              
-            />
-            <button class="btn btn-primary" >Search</button>
-          </div>
-          <!-- Add Data Button -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add asset</button>
+          <form @submit.prevent="handleSearch">
+            <div class="input-group">
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Search..." 
+                v-model="searchParam"
+              />
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+          </form>
+
         </div>
   
         <!-- Add Data Form Modal -->
@@ -60,15 +61,17 @@
                 data-bs-toggle="modal"
                 data-bs-target="#editModal"
                 >Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
+                <button class="btn btn-danger btn-sm" disabled>Delete</button>
               </td>
             </tr>
           </tbody>
         </table>
         <!--BUTTON CONTAINER SA ILALIM-->
-        <div>
-          <button class="btn btn-primary">Prev</button>
-          <button class="btn btn-primary">Next</button>
+        <div class="button-container">
+          <button class="btn btn-primary" @click="prevPage" :disabled="page===1">Prev</button>
+          <button class="btn btn-primary" @click="nextPage" :disabled="page===total">Next</button>
+          <!-- Add Data Button -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add asset</button>
         </div>
         <!--END-->
       </div>
@@ -230,7 +233,8 @@
   </template>
   
   <script setup>
-  import MySidebar from "../components/base/MySidebar.vue";
+
+import MySidebar from "../components/base/MySidebar.vue";
   import editModal from "./assetsModals/editModal.vue";
   </script>
 <script>
@@ -239,6 +243,9 @@ export default {
   components:{editModal},
   data(){
     return{
+      page:1,
+      total:null,
+      searchParam:'',
       selectedAssetID: null,
       base_url:process.env.VUE_APP_BASE_URL,
       assets:[],
@@ -273,6 +280,18 @@ methods: {
         status:'In stock'
     }
   },
+  nextPage(){
+    this.page++;
+    this.handleSearch();
+  },
+  prevPage(){
+    this.page--;
+    this.handleSearch();
+  },
+  handleSearch(){
+    this.searchParam.trim() === '' ? this.fetchAssets() : this.search(this.searchParam.trim());
+  },
+  
   async addAsset(){
     try{
       const response = await toast.promise(
@@ -309,10 +328,32 @@ methods: {
         toast.clearAll();
       }, 5000);
     }
-  }
-  ,
+  },
+
+  async search(){
+    fetch(`${this.base_url}/assets/search?page=${this.page}&searchTerm=${this.searchParam}`,{
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'},
+      credentials:'include'
+    }).then(response => {
+      if(!response.ok){
+        if(response.status === 401){
+            console.log(response)
+            throw new Error('Unauthorized')
+          }else{
+            throw new Error('Network response was not ok ' + response.status.text);
+          } 
+      }
+      return response.json()
+    }).then(data => {
+      this.assets = data.data;
+      this.total = data.pagination.totalPages
+    }).catch(error =>{
+      console.error('Error fetching assets', error)
+    })
+  },//-----------------------------------------------
   async fetchAssets(){
-      fetch(`${this.base_url}/assets/`,{
+      fetch(`${this.base_url}/assets/?page=${this.page}`,{
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include'
@@ -328,7 +369,8 @@ methods: {
         }
         return response.json()
       }).then(data => {
-        this.assets = data;
+        this.assets = data.data;
+        this.total = data.pagination.totalPages
       }).catch(error => {
         console.error('Error fetching assets:', error)
       });
@@ -381,7 +423,7 @@ mounted() {
   .table {
     width: 100%;
     margin-bottom: 1rem;
-    font-size: small;
+    font-size: .7rem;
   }
   
   
@@ -401,5 +443,11 @@ mounted() {
   .pagination .page-item .page-link {
     cursor: pointer;
   }
+  .button-container {
+  display: flex;
+  justify-content: flex-end; 
+  gap: 10px; 
+
+}
   </style>
   
