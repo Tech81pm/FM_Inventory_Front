@@ -110,7 +110,7 @@
                 required
               />
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-2 mb-3">
               <label for="status" class="form-label">Status</label>
               <select
                 class="form-select"
@@ -122,7 +122,7 @@
                 <option value="Out of stock">Out of stock</option>
               </select>
             </div>
-            <div class="col-md-1 mb-3">
+            <div class="col-md-2 mb-3">
               <label for="quantity" class="form-label">Quantity</label>
               <input
                 type="number"
@@ -144,8 +144,71 @@
     </div>
   </div>
 </div>
-
 <!--ENDD MODALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL-->
+
+<!--Quantity MODAL-->
+<div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="quantityModalLabel">Add Stock</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form @submit.prevent="addStocks()">
+        <div class="modal-body">
+          <div class="col">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input
+              type="number"
+              class="form-control"
+              id="quantity"
+              v-model="stocks"
+              placeholder="Enter quantity"
+              min="1"
+              required
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add stock/s</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="pullModal" tabindex="-1" aria-labelledby="pullModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="pullModalLabel">Pull-out</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form @submit.prevent="pullOut()">
+        <div class="modal-body">
+          <div class="col">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input
+              type="number"
+              class="form-control"
+              id="quantity"
+              v-model="stocks"
+              :placeholder="this.newAssets.quantity"
+              min="1"
+              :max="this.newAssets.quantity"
+              required
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clear()">Close</button>
+          <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Pull-out</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 </template>
 <script>
 import { toast } from 'vue3-toastify';
@@ -157,6 +220,7 @@ export default{
     },
     data(){
         return{
+            stocks: null,
             base_url:process.env.VUE_APP_BASE_URL,
             newAssets:{
                 asset_name:'',
@@ -181,6 +245,20 @@ export default{
         }
     },
     methods: {
+       addStocks(){
+        this.newAssets.quantity += this.stocks;
+        console.log(this.newAssets.quantity);
+        this.editAsset(this.assetId)
+        this.clear();
+      },
+      pullOut(){
+        this.newAssets.quantity -= this.stocks;
+        this.editAsset(this.assetId)
+        this.clear();
+      },
+      clear(){
+        this.stocks = null;
+      },
         async editAsset(id){
             try{
                 console.log(this.newAssets);
@@ -205,8 +283,7 @@ export default{
                 toast.success('Changes saved', {
                     autoClose:2000
                 })
-                this.closeModal();
-
+                this.closeModal()
             }catch(error){
                 console.error('Error adding asset')
                 toast.error('Error: ' + error.message,{
