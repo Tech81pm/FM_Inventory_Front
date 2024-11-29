@@ -2,9 +2,10 @@
     <div class="app">
       <MySidebar />
       <div class="content" style="padding: 1rem;">
-        <div class="d-flex justify-content-between mb-3">
+        <div class="button-container mb-1">
           <!-- Search Input and Button -->
-          <form @submit.prevent="handleSearch">
+           
+            <form @submit.prevent="handleSearch">
             <div class="input-group">
               <input 
                 type="text" 
@@ -12,10 +13,9 @@
                 placeholder="Search..." 
                 v-model="searchParam"
               />
-              <button class="btn btn-primary" type="submit">Search</button>
+              <button class="btn btn-secondary" type="submit">Search</button>
             </div>
           </form>
-
         </div>
   
         <!-- Add Data Form Modal -->
@@ -52,24 +52,26 @@
               <td>{{asset.quantity}}</td>
               <td>{{asset.location}}</td>
               <td>{{asset.company}}</td>
-              <td>{{asset.purchase_date}}</td>
+              <td>{{$moment(asset.purchase_date).tz('Asia/Manila').format('YYYY-MM-DD')}}</td>
               <td>{{asset.supplier}}</td>
               <td>{{asset.price}}</td>
               <td>{{asset.status}}</td>
               <td>
-                <button class="btn btn-primary btn-sm" @click="selectedAssetID = asset.id"
-                data-bs-toggle="modal"
-                data-bs-target="#editModal"
-                >Edit</button>
-                <button class="btn btn-danger btn-sm" disabled>Delete</button>
+                <div class="button-container">
+                  <button class="btn btn-secondary btn-sm" @click="selectedAssetID = asset.id"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                  >Edit</button>
+                  <button class="btn btn-warning btn-sm" disabled>Pull-out</button>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
         <!--BUTTON CONTAINER SA ILALIM-->
         <div class="button-container">
-          <button class="btn btn-primary" @click="prevPage" :disabled="page===1">Prev</button>
-          <button class="btn btn-primary" @click="nextPage" :disabled="page===total">Next</button>
+          <button class="btn btn-secondary" @click="prevPage" :disabled="page===1">Prev</button>
+          <button class="btn btn-secondary" @click="nextPage" :disabled="page===total || total === 0">Next</button>
           <!-- Add Data Button -->
           <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add asset</button>
         </div>
@@ -77,7 +79,7 @@
       </div>
       <editModal
       :assetId="selectedAssetID"
-      @close="fetchAssets()"
+      @close="handleSearch()"
       />
     </div>
     
@@ -257,7 +259,7 @@ export default {
         quantity:1,
         location:'',
         company:'',
-        purchase_date:'',
+        purchase_date: this.$moment().tz('Asia/Manila').format('YYYY-MM-DD'),
         supplier:'',
         price: '',
         status:'In stock'
@@ -316,7 +318,7 @@ methods: {
       toast.success('Asset added succesfully',{
         autoClose:2000
       });
-      this.fetchAssets()
+      this.handleSearch()
       this.clear()
     }catch(error){
       console.error('Error adding asset')

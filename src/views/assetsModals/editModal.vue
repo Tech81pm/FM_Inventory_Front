@@ -166,7 +166,7 @@ export default{
                 quantity:1,
                 location:'',
                 company:'',
-                purchase_date:'',
+                purchase_date: this.$moment().tz('Asia/Manila').format('YYYY-MM-DD'),
                 supplier:'',
                 price: '',
                 status:'In stock'
@@ -241,7 +241,7 @@ export default{
                     quantity: data.quantity,
                     location: data.location,
                     company: data.company,
-                    purchase_date: data.purchase_date,
+                    purchase_date: this.$moment(data.purchase_date).tz('Asia/Manila').format('YYYY-MM-DD'),
                     supplier: data.supplier,
                     price: data.price,
                     status: data.status
