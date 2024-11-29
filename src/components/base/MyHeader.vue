@@ -9,9 +9,6 @@
             <li class="nav-item">
                 <router-link class="nav-link" to="/login" aria-current="page">Login</router-link>
             </li>
-            <li class="nav-item">
-                <router-link class="nav-link" to="/register" aria-current="page">Register</router-link>
-            </li>
             </ul>
         </div>
     </nav>

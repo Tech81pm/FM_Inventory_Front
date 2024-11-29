@@ -17,14 +17,14 @@
           <span class="material-icons">dashboard</span>
           <span class="text">Assets</span>
         </router-link>
-        <router-link class="button" to="/purchase">
+        <!-- <router-link class="button" to="/purchase">
           <span class="material-icons">dashboard</span>
           <span class="text">Purchase</span>
         </router-link>
         <router-link class="button" to="/reports">
           <span class="material-icons">dashboard</span>
           <span class="text">Reports</span>
-        </router-link>
+        </router-link> -->
       </div>
     </aside>
   </template>

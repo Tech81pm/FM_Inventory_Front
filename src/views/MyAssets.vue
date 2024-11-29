@@ -62,7 +62,16 @@
                   data-bs-toggle="modal"
                   data-bs-target="#editModal"
                   >Edit</button>
-                  <button class="btn btn-warning btn-sm" disabled>Pull-out</button>
+                  <button class="btn btn-warning btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#pullModal"
+                  @click="selectedAssetID = asset.id"
+                  >Pull-out</button>
+                  <button class="btn btn-success btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#quantityModal"
+                  @click="selectedAssetID = asset.id"
+                  >Add</button>
                 </div>
               </td>
             </tr>
@@ -195,7 +204,7 @@
                 required
               />
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-2 mb-3">
               <label for="status" class="form-label">Status</label>
               <select
                 class="form-select"
@@ -207,14 +216,14 @@
                 <option value="Out of stock">Out of stock</option>
               </select>
             </div>
-            <div class="col-md-1 mb-3">
+            <div class="col-md-2 mb-3">
               <label for="quantity" class="form-label">Quantity</label>
               <input
                 type="number"
                 class="form-control"
                 id="quantity"
                 v-model="newAssets.quantity"
-                placeholder="Enter quantity"
+                placeholder=""
                 min="1"
                 required
               />
@@ -246,7 +255,7 @@ export default {
   data(){
     return{
       page:1,
-      total:null,
+      total:0,
       searchParam:'',
       selectedAssetID: null,
       base_url:process.env.VUE_APP_BASE_URL,
@@ -276,7 +285,7 @@ methods: {
         quantity:1,
         location:'',
         company:'',
-        purchase_date:'',
+        purchase_date:this.$moment().tz('Asia/Manila').format('YYYY-MM-DD'),
         supplier:'',
         price:0,
         status:'In stock'
@@ -374,6 +383,15 @@ methods: {
         this.assets = data.data;
         this.total = data.pagination.totalPages
       }).catch(error => {
+        toast.error('Login muna',{autoClose: false, position: toast.POSITION.TOP_CENTER,
+        style: {
+        position: 'fixed',
+        top: '50%',  // 50% from the top
+        left: '50%', // 50% from the left
+        transform: 'translate(-50%, -50%)', // Center it exactly
+      },
+
+        })
         console.error('Error fetching assets:', error)
       });
   }

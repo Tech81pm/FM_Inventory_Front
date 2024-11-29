@@ -68,7 +68,6 @@
  <script setup>
  import MySidebar from "../components/base/MySidebar.vue";
  
- // Sample data for dashboard summary
  const totalUsers = 1500;
  const totalSales = 320;
  const totalRevenue = '$45,000';
