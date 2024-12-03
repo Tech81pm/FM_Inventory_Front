@@ -63,17 +63,17 @@
        </div>
      </div>
    </div>
- </template>
- 
- <script setup>
- import MySidebar from "../components/base/MySidebar.vue";
+</template>
+
+<script setup>
+import MySidebar from "../components/base/MySidebar.vue";
  
  const totalUsers = 1500;
  const totalSales = 320;
  const totalRevenue = '$45,000';
  const activeProducts = 200;
- </script>
- 
+</script>
+
  <style scoped>
  .card {
    border-radius: 10px;
@@ -99,5 +99,5 @@
  .list-group-item {
    padding: 1rem;
  }
- </style>
- 
+</style>
+

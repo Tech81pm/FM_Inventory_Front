@@ -1,4 +1,5 @@
 <template>
+  <mian>
     <div class="app">
       <MySidebar />
       <div class="content" style="padding: 1rem;">
@@ -98,7 +99,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="addModalLabel">Add Asset</h1>
+        <h1 class="modal-title fs-5" id="addModalLabel">ADD ASSET</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form @submit.prevent="addAsset">
@@ -143,60 +144,60 @@
               />
             </div>
             <div class="col-md-4 mb-3">
-              <label for="specs" class="form-label">Specifications</label>
-              <input
-                type="text"
-                class="form-control"
-                id="specs"
-                v-model="newAssets.specs"
-                placeholder="Enter specifications"
-                required
-              />
-            </div>
-            <div class="col-md-4 mb-3">
               <label for="location" class="form-label">Location</label>
               <input
-                type="text"
-                class="form-control"
-                id="location"
-                v-model="newAssets.location"
-                placeholder="Enter location"
-                required
+              type="text"
+              class="form-control"
+              id="location"
+              v-model="newAssets.location"
+              placeholder="Enter location"
+              required
               />
             </div>
             <div class="col-md-4 mb-3">
               <label for="company" class="form-label">Company</label>
               <select
-                class="form-select"
-                id="company"
-                v-model="newAssets.company"
-                placeholder="Enter company"
-                required
+              class="form-select"
+              id="company"
+              v-model="newAssets.company"
+              placeholder="Enter company"
+              required
               >
               <option value="">Select company</option>
               <option value="81PM">81PM</option>
               <option value="OSI">OSI</option>
               <option value="MHI">MHI</option>
-              </select>
-            </div>
-            <div class="col-md-2 mb-3">
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="supplier" class="form-label">Supplier</label>
+            <input
+              type="text"
+              class="form-control"
+              id="supplier"
+              v-model="newAssets.supplier"
+              placeholder="Enter supplier name"
+              required
+            />
+          </div>
+          <div class="col-md-12 mb-3">
+            <label for="specs" class="form-label">Specifications</label>
+            <textarea
+              type="text"
+              class="form-control"
+              id="specs"
+              v-model="newAssets.specs"
+              placeholder="Enter specifications"
+              required
+            ></textarea>
+          </div>
+            <div class="col-md-3 mb-3">
               <label for="purchaseDate" class="form-label">Purchase Date</label>
               <input
                 type="date"
                 class="form-control"
                 id="purchaseDate"
                 v-model="newAssets.purchase_date"
-                required
-              />
-            </div>
-            <div class="col-md-3 mb-3">
-              <label for="supplier" class="form-label">Supplier</label>
-              <input
-                type="text"
-                class="form-control"
-                id="supplier"
-                v-model="newAssets.supplier"
-                placeholder="Enter supplier name"
                 required
               />
             </div>
@@ -213,7 +214,19 @@
                 required
               />
             </div>
-            <div class="col-md-2 mb-3">
+            <div class="col-md-3 mb-3">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input
+              type="number"
+              class="form-control"
+              id="quantity"
+              v-model="newAssets.quantity"
+              placeholder=""
+              min="1"
+              required
+              />
+            </div>
+            <div class="col-md-3 mb-3">
               <label for="status" class="form-label">Status</label>
               <select
                 class="form-select"
@@ -225,18 +238,6 @@
                 <option value="Out of stock">Out of stock</option>
               </select>
             </div>
-            <div class="col-md-2 mb-3">
-              <label for="quantity" class="form-label">Quantity</label>
-              <input
-                type="number"
-                class="form-control"
-                id="quantity"
-                v-model="newAssets.quantity"
-                placeholder=""
-                min="1"
-                required
-              />
-            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -247,8 +248,8 @@
     </div>
   </div>
 </div>
-
-  </template>
+</mian>
+</template>
   
   <script setup>
 
@@ -410,40 +411,108 @@ mounted() {
 
 </script>
   
-  <style scoped>
-  /* Modal Overlay */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1050;
+<style scoped>
+/* Modal content styling */
+.modal-content {
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: none;
+  background-color: #fff;
+}
+
+/* Modal Header Styling */
+.modal-header {
+  background-color: var(--dark);
+  color: var(--light);
+  padding: 20px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+/* Modal Body Styling */
+.modal-body {
+  padding: 30px;
+  background-color: var(--light);
+  border-radius: 12px;
+}
+
+/* Form Elements Styling */
+.form-control, .form-select, textarea {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  box-shadow: none;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus, textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+/* Row and Column Layout */
+.row.g-3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
+label.form-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+/* Modal Footer Styling */
+.modal-footer {
+  background-color: var(--light);;
+  border-top: 2px solid var(--dark-alt);
+  text-align: right;
+}
+
+.btn-primary {
+  background-color: var(--primary);;
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  border-color: var(--light);
+}
+
+.btn-secondary {
+  background-color: var(--light);
+  border-color: var(--dark);
+  color: var(--primary);
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+  .col-md-4, .col-md-3, .col-md-12 {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
-  
-  /* Modal Container */
-  .modal-container {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
-    z-index: 1060;
-  }
-  
-  /* Modal Styling */
-  .modal-container h3 {
-    margin-bottom: 1rem;
-  }
-  
-  .modal-container button {
-    margin-top: 1rem;
-  }
+}
   
   /* Table Layout */
   
@@ -476,5 +545,5 @@ mounted() {
   gap: 10px; 
 
 }
-  </style>
+</style>
   
