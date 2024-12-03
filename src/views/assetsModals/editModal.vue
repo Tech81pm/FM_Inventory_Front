@@ -23,14 +23,19 @@
             </div>
             <div class="col-md-4 mb-3">
               <label for="category" class="form-label">Category</label>
-              <input
-                type="text"
-                class="form-control"
+              <select
+                class="form-select"
                 id="category"
                 v-model="newAssets.category"
                 placeholder="Enter category"
                 required
-              />
+              >
+                <option value="" disabled selected>Select category</option>
+                <option value="Furniture">Furnitures</option>
+                <option value="Fixture">Fixtures</option>
+                <option value="Appliance">Appliances</option>
+                <option value="Tools">Tools</option>
+              </select>
             </div>
             <div class="col-md-4 mb-3">
               <label for="brand" class="form-label">Brand</label>
@@ -67,14 +72,18 @@
             </div>
             <div class="col-md-4 mb-3">
               <label for="company" class="form-label">Company</label>
-              <input
-                type="text"
-                class="form-control"
+              <select
+                class="form-select"
                 id="company"
                 v-model="newAssets.company"
                 placeholder="Enter company"
                 required
-              />
+              >
+              <option value="">Select company</option>
+              <option value="81PM">81PM</option>
+              <option value="OSI">OSI</option>
+              <option value="MHI">MHI</option>
+              </select>
             </div>
             <div class="col-md-2 mb-3">
               <label for="purchaseDate" class="form-label">Purchase Date</label>
