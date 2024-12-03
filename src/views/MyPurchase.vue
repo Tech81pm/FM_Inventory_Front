@@ -26,6 +26,7 @@
         <thead class="table-dark">
           <tr>
             <th scope="col">ID</th>
+            <th scope="col">Item ID</th>
             <th scope="col">Name</th>
             <th scope="col">Category</th>
             <th scope="col">Brand</th>
@@ -42,6 +43,7 @@
         <tbody>
         
           <tr v-for="asset in assets" :key="asset.id">
+            <td>{{asset.id}}</td>
             <td>{{asset.asset_id}}</td>
             <td>{{asset.asset_name}}</td>
             <td>{{asset.category}}</td>
@@ -54,19 +56,21 @@
             <td>{{asset.status}}</td>
             <td>
               <div class="button-container">
-                <button class="btn btn-secondary btn-sm" @click="selectedAssetID = asset.id"
+                <button class="btn btn-secondary btn-sm" 
+                @click="selectedPurchaseID = asset.id"
                 data-bs-toggle="modal"
                 data-bs-target="#editModal"
                 >Edit</button>
-                <button class="btn btn-warning btn-sm"
+                <button class="btn btn-primary btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#pullModal"
-                
+                data-bs-target="#statusModal"
+                @click="selectedPurchaseID = asset.id"
                 >Update status</button>
                 <button class="btn btn-success btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#quantityModal"
                 :disabled="asset.status !== 'Passed'"
+                @click="selectedPurchaseID = asset.id"
                 >Add to stocks</button>
               </div>
             </td>
@@ -83,7 +87,7 @@
       <!--END-->
     </div>
     <editModal
-    :assetId="selectedAssetID"
+    :selectedId="selectedPurchaseID"
     @close="handleSearch()"
     />
   </div>
@@ -108,7 +112,7 @@ data(){
     page:1,
     total:0,
     searchParam:'',
-    selectedAssetID: null,
+    selectedPurchaseID: null,
     base_url:process.env.VUE_APP_BASE_URL,
     assets:[],
     newAssets:{
